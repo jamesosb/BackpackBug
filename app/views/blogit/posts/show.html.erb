@@ -1,0 +1,13 @@
+<div class="fixbody">
+<%= render @post %>
+<% if blogit_conf.include_comments %>
+  <div id="comments">
+    <%= render @post.comments %>
+  </div>
+  <%= render "blogit/comments/form" %>    
+<% end %>
+</div>
+    <div class="span2 fill toplift">
+      <%= #render :partial => 'locationsbar', :locals => { :post => @post }  
+      	%>
+    </div>

@@ -1,0 +1,26 @@
+
+<div class="other-content bottom-padding toplift">
+<p>
+  <b>Name:</b>
+  <%= @plan.name %>
+</p>
+
+<p>
+  <b>Desc:</b>
+  <%= @plan.desc %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @plan.plantype %>
+</p>
+
+<p>
+  <b>Complete:</b>
+  <%= @plan.complete %>
+</p>
+
+
+<%= link_to 'Edit', edit_plan_path(@plan) %> |
+<%= link_to 'Back', plans_path %>
+</div>

@@ -1,0 +1,8 @@
+<% if post.coverphoto.present? %>
+<div class="post-coverpic cornertops">
+	<%= link_to post do%>
+<%= image_tag post.coverphoto.url(:coverbar), :width=>"600px", :class=>"cornertops"%>
+<%end%>
+</div>
+<% end%>
+

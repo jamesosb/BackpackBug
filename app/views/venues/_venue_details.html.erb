@@ -1,0 +1,63 @@
+<h1 class="faves-head">
+
+<%=@venue.name%>, <%= @location.name %>
+</h4>
+<%if @venue.latitude.present? and @venue.longitude.present?%>
+<div id="map" class="indexmapdimentions"></div>
+<%end%>
+
+<div class="text-body">
+<p><%=@venue.desc%></p>
+<% if @tips.first.present? %>
+<h3>Tips</h3><h6 class="providedby">provided by Foursquare</h6>
+<%end%>
+
+<% @tips.first(5).each do |tip|%>
+<p class="well"><%= tip.text.humanize %></p>
+<%end%>
+</div>
+<div id="masonryContainer">
+
+<%# if @venue.photos.present?
+%>
+		<%# @venue.photos.first(5).each do |pic| 
+		%>
+			<div class="cornerit box locationtile ">
+		<div class="loctile1 ">
+		<%=# image_tag pic.url, :width=>"200", :"data-original"=>pic.url, :class=>"loctiled cornerit lazy"
+		%>
+</div></div>
+<%#end
+%>
+<%#end
+%>
+</div>
+
+<script type="text/javascript">
+
+var $container = $('#masonryContainer');
+$container.imagesLoaded(function(){
+  $container.masonry({
+    itemSelector : '.box',
+    columnWidth: 170,
+    gutterWidth: 10
+  });
+});
+
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map').setView([<%= @venue.latitude %>,<%= @venue.longitude %>], 13);
+
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'
+}).addTo(map);
+
+L.marker([<%= @venue.latitude%>, <%= @venue.longitude%>], {icon: new L.Icon({
+     iconUrl: '/assets/marker-icon.png',
+    iconAnchor: [12, 40]
+   })}).addTo(map)
+   .bindPopup('<%= @venue.name%>');
+
+
+</script>
+

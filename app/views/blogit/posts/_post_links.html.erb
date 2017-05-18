@@ -1,0 +1,12 @@
+ 
+<%= login_required do  %>
+<div class="span2 profinfo">
+  <%= actions do %>
+    <%= link_to("Edit", edit_post_path(post)) %> | 
+    <%= link_to "Delete", post, :method=>:delete, :class=>:destroy %>
+    <%=# link_to("Delete", post, method: :delete, confirm: "Are you sure you want to remove this post?")
+     %>
+  <% end %>
+  </div>
+<% end unless blogit_conf.author_edits_only and not this_blogger?(post) %>
+

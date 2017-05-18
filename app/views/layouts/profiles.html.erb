@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <title><%= @meta_title %></title>
+    <meta name="keywords" content="<%= @meta_keywords %>" />
+	<meta name="description" content="<%= @meta_description %>" />
+	<meta name="google-site-verification" content="MQKA0yXSngC8qloG3I9ZtG-BLUY5gUdwM2DZA_75-78" />
+</head>
+<body>
+       
+<div class="container-fluid">
+	<% if notice.present? %>
+	</br>
+	<div class="alert">
+ 	 <button type="button" class="close" data-dismiss="alert">×</button>
+	 <strong>Heads up!</strong> <p class="notice"><%= notice %></p>
+	</div>	
+	<% end %>
+       
+  <div class="row">
+    <div class="span3">
+       <%= render "shared/sidebar" %>
+    </div>
+    <div class="fixbody">
+      <%= yield %>
+    </div>
+    <div class="span3">
+      <%= render "blogit/posts/rightbar" %>
+    </div>
+  </div>
+</div>
+<footer class="footer"><%= render "shared/footer" %></footer>
+</body>
+</html>

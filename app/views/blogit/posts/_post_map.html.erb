@@ -1,0 +1,52 @@
+
+<% if post.locations.present?%>
+
+<div id="map<%= post.id %>" class="indexmapdimentions"></div>
+
+
+
+<%end %>
+
+
+<script type="text/javascript">
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map<%= post.id %>')<% if !post.locations_linked %>.setView([51.505, -0.09], 1);<%end%>
+
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'
+}).addTo(map);
+
+<% if post.locations_linked %>
+var polyline = L.polyline([
+<% post.locations.each do |l|%>
+
+    [<%= l.latitude%>, <%= l.longitude%>],
+  <%end%>
+ ]).addTo(map);
+<%end%>
+ 
+ <% post.locations.each do |o|%>
+L.marker([<%= o.latitude%>, <%= o.longitude%>], {icon: new L.Icon({
+     iconUrl: '/assets/marker-icon.png',
+    iconAnchor: [12, 40]
+   })}).addTo(map)
+   .bindPopup('<%= link_to o.name, location_path(o.id)%>');
+   
+   var latlng<%= o.id %> = new L.LatLng(<%= o.latitude%>, <%= o.longitude%>);
+
+<% if post.locations.count < 5 %>    
+      
+var popup = L.popup()
+    .setLatLng(latlng<%= o.id %>)
+    .setContent('<%= o.name%>')
+    .addTo(map);
+<%end%>       
+  <%end%>
+ 
+<% if post.locations_linked %>
+ // zoom the map to the polyline
+map.fitBounds(polyline.getBounds().pad(0.4));
+<%end%>
+
+</script>

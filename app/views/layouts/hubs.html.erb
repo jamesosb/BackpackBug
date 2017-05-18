@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <%= csrf_meta_tags %>
+  <title><%= @meta_title %></title>
+    <meta name="keywords" content="<%= @meta_keywords %>" />
+	<meta name="description" content="<%= @meta_description %>" />
+	<meta name="google-site-verification" content="MQKA0yXSngC8qloG3I9ZtG-BLUY5gUdwM2DZA_75-78" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+</head>
+<body>
+
+<!-- <div class="logobox">
+	<%= link_to '/' do %>
+<%= image_tag "logo.png", :alt => "Backpack Bug"%>
+<%end%>
+</div> -->
+
+<nav class="navbar navbar-default " role="navigation">
+	<div class="container">
+		
+		<ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">What</a></li>
+            <li><a href="#">Where</a></li>
+            <li><a href="#">Who</a></li>
+        </ul>
+	</div>
+	</nav> 
+
+<div clas="container">
+
+
+  <%= render "hubs/hero-bar" %>
+
+</div>
+     
+<div class="container-narrow">
+	<% if notice.present? %>
+	</br>
+	<div class="alert">
+ 	 <button type="button" class="close" data-dismiss="alert">×</button>
+	 <strong>Heads up!</strong> <p class="notice"><%= notice %></p>
+	</div>	
+	<% end %>
+
+<%= image_tag "stockblur2.jpeg", :class=>"back-image"%>         
+
+
+  
+  
+  <div class="row-fluid">
+    
+      <%= yield %>
+   
+  </div>
+</div>
+<footer class="footer"><%= render "shared/footer" %></footer>
+</body>
+</html>

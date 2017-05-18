@@ -1,0 +1,10 @@
+<div id="found">
+  	<p class="help-block">Ahh, you meant <%=@georesult[0].address%></p>
+  	<% if @georesult[0].city.present?%>
+  	<%= hidden_field_tag :legname, @georesult[0].city, :class=>"legnam" %>
+  	<%else%>
+  	<%= hidden_field_tag :legname, @georesult[0].country, :class=>"legnam" %>
+  	<%end%>
+    <%= hidden_field_tag :longitude, @georesult[0].longitude, :class=>"longitude" %>
+    <%= hidden_field_tag :latitude, @georesult[0].latitude, :class=>"latitude" %>
+  </div>

@@ -1,0 +1,13 @@
+<div class="post-info"><%= time_ago_in_words(a.created_at) %> ago <%if user_signed_in? && current_user.id == 1 %> - <%= link_to("Delete", ("hubs/#{a.id}"), method: :delete, :class => 'remote-delete', confirm: "Are you sure you want to delete this activity?") %><%end%></div>
+<script>
+$(document).ready(function() {
+
+  $('a.remote-delete').click(function() {
+    // we just need to add the key/value pair for the DELETE method
+    // as the second argument to the JQuery $.post() call
+      $.post(this.href, { _method: 'delete' }, null, "script");
+      $(this).parents('div.toplift').fadeOut("slow", function() { $(this).remove(); });
+    return false;
+  });
+});
+</script>

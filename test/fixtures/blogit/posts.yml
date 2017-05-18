@@ -1,0 +1,11 @@
+one:
+  title: MyStringTitle
+  body: MyStringMustBeACertainLength
+  blogger_id: 1
+  blogger_type: User 
+
+two:
+  title: MyStringTitle2
+  body: MyStringMustBeACertainLength2
+  blogger_id: 1
+  blogger_type: User 

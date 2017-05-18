@@ -1,0 +1,27 @@
+<h3>Completed and Fixed</h3>
+<ol id="sortable-with-handles" class="sortable2 list connected">
+  <% @completedplans.each do |plan| %>  
+    <%= fields_for "plan[]", plan do |f| %>  
+      <li class="PlanListItem completed"><%= f.check_box :complete, :class => 'submittable' %><%=f.hidden_field :position, :class=>"position"%>
+        <% if plan.plantype == "Bug" %> 
+    <span class="label label-important">
+    <% elsif plan.plantype == "Feature"%>
+    <span class="label label-success">
+    <% elsif plan.plantype == "Issue"%>
+    <span class="label label-warning">
+    <% elsif plan.plantype == "Other"%>
+    <span class="label">
+    <%else%>
+    <span class="label">
+    <%end%><%= plan.plantype %></span> <strong><%= plan.name.titleize %></strong>
+    	<div class="right">
+    <%= link_to  edit_plan_path(plan) do%>
+    <i class="icon-pencil"></i>
+    <%end%>
+    <%= link_to  plan, method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <i class="icon-remove"></i>
+    <%end%>
+	</div>
+    <ul class="plandesc"><li><%= plan.desc %></li></ul></li>
+<% end %><% end %>
+</ol>

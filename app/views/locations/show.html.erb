@@ -1,0 +1,162 @@
+<% if @location.assets.present? %>
+<% @location.assets.first(1).each do |a| %>
+	
+<%= image_tag a.asset.url(:blurred), :class=>"back-image", :alt =>""%>
+<%end%>
+<% end%>
+
+<div class="post-content toplift">
+
+<% if @location.assets.present? %>
+<div class="post-coverpic cornertops topgallery">
+	<% @location.assets.each_with_index do |a, i| %>
+		<%= image_tag a.asset.url(:large), :class=>"cornertops"%>
+	<%end%>
+
+</div>
+<% end%>
+<div class="post-body">
+<h1 class="faves-head">
+
+  <%= @location.name   %>
+</h4>
+
+<div id="map" class="indexmapdimentions"></div>
+
+
+			<% if @location.notes.present? %>
+	
+
+<h4>Our scrapbook notes about <%= @location.name %></h4>
+<div class="left-align post-body">
+	<%= markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
+    :autolink => true, :space_after_headers => true)
+	raw markdown.render(@location.notes) %>
+	
+</div>
+	<%end%>
+	</div>
+<div id="masonry2Container">	
+	
+
+
+<% if @posts.present? %>
+		
+		<% @posts.each_with_index do |p, i| %>
+<% if p.coverphoto.file? %>
+
+		
+			 <div class="locationtile cornerit box locationlinknoim">
+		 	<div class='loctile1'>
+		 		<%= link_to ("../blog/posts/#{p.id}")  do %>	
+			<%= image_tag p.coverphoto.url(:medium), :width=>"200", :"data-original"=>p.coverphoto.url(:medium), :class=>"loctiled cornerit lazy"%>
+		
+		 	</div>
+		 	<div class="locationtilebg">
+		 <div class="locationtiledetails"><%= link_to "Read #{truncate(p.title.titleize.strip,:length => 18, :omission => '...')}", "../blog/posts/#{p.id}"%></div>
+		 </div> </div>	
+		<%end%>
+	<%else%>	 
+		 <div class="locationtile cornerit box locationlinknoim">
+		 	<div class='loctile1'></div>
+		 	<div class="locationtilebg">
+		 <div class="locationtiledetails"><%= link_to "Read #{truncate(p.title.titleize.strip,:length => 18, :omission => '...')}", "../blog/posts/#{p.id}"%></div>
+		 
+		 </div> </div>
+		 
+		<%end%><%end%>
+
+
+	<%end%>
+
+
+
+	
+
+
+
+</div></div>
+	
+<!--	<%if @location.venues.present?%>
+		
+	
+		<%@foursquarevenue.each_with_index do |venue,v|%>
+		<div class="image-left-content toplift">
+	<div class="cornerit box locationtile left">
+		<div class="gallery<%=v%> loctile1">
+			<%# if venue.photos.present?
+			 %>
+		<%# venue.photos.first(5).each do |pic| 
+		%>
+		<%=#link_to location_venue_path(@location, venue) do
+		%>
+				<%=# image_tag pic.url, :width=>"200", :"data-original"=>pic.url, :class=>"loctiled cornerit lazy"
+				%>
+		<%#end end
+		%>
+		<%#end
+		%>
+		</div>
+		<%# if venue.fscategory.present?
+		%>
+		<%=# image_tag venue.fscategory, :class=>"venuecategory" 
+		%>
+		<%#end
+		%>
+</div>
+		<div class="offset2 image-left-content-details">
+		<h3 class="header-up-5"><%=link_to location_venue_path(@location, venue) do%><%=truncate(venue.name.titleize.strip,:length => 50, :omission => "...")%><%end%><span class="venue-info"> <% if !venue.category.blank? and venue.category != "Other" %> <%= venue.category%><%end%></span></h3>
+		<p class="header-up-20">
+			<%=raw(truncate (venue.desc),:length => 250, :omission => "... #{link_to 'more',location_venue_path(@location, venue)}")%>
+		</p>
+		</div>
+</div>
+		<%end%>
+		
+	
+<%end%>-->
+
+<div class="other-content bottom-padding toplift">
+
+<%if user_signed_in?%>
+<%= link_to 'Edit notes', edit_location_path(@location) %> | <%= link_to("Delete", @location, method: :delete, confirm: "Are you sure you want to delete this location? Everything you have added so far will be lost") %> | 
+<%end%>
+<%= link_to 'Back', locations_path %>
+
+</div>
+<script type="text/javascript">
+
+$("img.lazy").lazyload();
+
+
+<%@foursquarevenue.each_with_index do |venue,v|%>
+<% t = (v+1)*2000 %>
+$('.gallery<%=v%>').cycle({ fx: 'scrollLeft', timeout: <%=t%> });
+<%end%>
+
+$('.topgallery').cycle({ fx: 'scrollLeft', timeout: 3000 });
+
+// Masonry
+var $container = $('#masonry2Container');
+$container.imagesLoaded(function(){
+  $container.masonry({
+    itemSelector : '.box',
+    columnWidth: 170,
+    gutterWidth: 10
+  });
+});
+
+
+
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map').setView([<%= @location.latitude %>,<%= @location.longitude %>], 9);
+
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'
+}).addTo(map);
+
+
+
+
+</script>

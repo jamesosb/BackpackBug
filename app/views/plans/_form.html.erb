@@ -1,0 +1,33 @@
+<%= form_for(@plan, :html => {:class=>"form-horizontal"}) do |f| %>
+  <% if @plan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@plan.errors.count, "error") %> prohibited this plan from being saved:</h2>
+
+      <ul>
+      <% @plan.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, :class=>"control-label" %><div class="controls"><%= f.text_field :name %></div>
+  </div>
+    <div class="control-group">
+    <%= f.label :desc, :class=>"control-label" %><div class="controls"><%= f.text_area :desc, :rows=>4 %></div>
+    
+    <%if !@plan.complete.present?%>
+    <%=f.hidden_field :complete, :value =>"false"%>
+    <%end%>
+  </div>
+  <div class="control-group">
+    <%= f.label :type, :class=>"control-label" %><div class="controls">    
+    <%= f.select(:plantype, [["Feature"], ["Bug"], ["Issue"], ["Other"]],{:include_blank => 'Select'},:class => "span2")%>
+    </div>
+  </div>
+  <div class="control-group">
+  <div class="actions controls">
+    <%= f.submit "Submit", :class=>"btn" %>
+  </div></div>
+<% end %>

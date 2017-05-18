@@ -1,0 +1,22 @@
+
+<div id="found">
+	
+	
+  	<p class="help-block">
+  		<%if @searchforsimilar.present? %><a href="#" onclick="return false;" class="correct_location"><%=@searchforsimilar.name%></a> looks similar and already exists. Is this what you're looking for?	
+  		<a href="#" onclick="num = 1; $('.help-block').fadeOut(); return false;" class="not_correct_location">Nope! Keep Searching...</a></p> 		
+  	<%end%>		
+  	<%= hidden_field_tag :legname, @searchforsimilar.name, :class=>"legnam" %>
+  	<%= hidden_field_tag :longitude, @searchforsimilar.longitude, :class=>"longitude"
+  	 %>
+    <%= hidden_field_tag :latitude, @searchforsimilar.latitude, :class=>"latitude" 
+    %>
+  	
+    
+  </div>
+
+
+
+
+
+

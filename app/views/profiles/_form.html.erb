@@ -1,0 +1,62 @@
+<%= form_for(@profile) do |f| %>
+  <% if @profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+
+      <ul>
+      <% @profile.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+    <div class="field">
+    <%= f.label :user_id %><br />
+    <%=# f.text_field :user_id 
+    %>
+    <%= collection_select(:profile, :user_id, @findusers, :id, :email) %>
+    <span class="help-block">You can only create a new profile for users which already exist.</span>
+  </div>
+
+  <div class="field">
+    <%= f.label :forename %><br />
+    <%= f.text_field :forename %>
+  </div>
+  <div class="field">
+    <%= f.label :surname %><br />
+    <%= f.text_field :surname %>
+  </div>
+  <div class="field">
+    <%= f.label :currentlatitude %><br />
+    <%= f.text_field :currentlatitude %>
+  </div>
+  <div class="field">
+    <%= f.label :currentlongitude %><br />
+    <%= f.text_field :currentlongitude %>
+  </div>
+  
+  <fieldset>
+
+      <%= f.text_area :notes, placeholder: "Write notes about you here...", :id=>"notes-text", :class=>"span7" %>
+
+  </fieldset>
+  
+  	    <div class="fileupload fileupload-new" data-provides="fileupload">
+  <div class="fileupload-new thumbnail" style="width: 100px; height: 50px;"><img class="setimage" src="http://www.placehold.it/100x50/EFEFEF/AAAAAA" /></div>
+  <div class="fileupload-preview fileupload-exists thumbnail" style="width: 100px; height: 50px;"></div>
+  <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><%=  f.file_field :profpicture %></span>
+  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+</div>
+  
+  <div class="actions">
+    <%= f.submit "Submit", :class => "btn" %>
+  </div>
+<% end %>
+
+
+ <script type="text/javascript">
+ $(document).ready(
+$('#notes-text').wysihtml5()
+);
+</script>

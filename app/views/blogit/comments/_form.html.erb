@@ -1,0 +1,45 @@
+<div class="comment-form">
+<div class="row">	
+<div class="span6">
+<%= form_for [@post, @comment], remote: true, 
+  html: {
+    class: "new_blog_comment", id: "new_blog_comment" } do |f| -%>
+  
+  <h4 class="text">Leave a comment</h4>
+  
+  <%= field class: "hidden" do %>
+    <%= f.label :nickname %>
+    <%= f.text_field :nickname %>
+    Hide me using CSS
+  <% end %>
+  
+  <%= field do %>
+    <%= f.label :name, "Name *" %><br>
+    <%= f.text_field :name, :class=>"span6" %>
+    <%= errors_on(@comment, :name) %>
+  <% end %>
+  
+  <%= field do %>
+    <%= f.label :email, "Email" %> (never displayed)<br>
+    <%= f.email_field :email, :class=>"span6" %>
+    <%= errors_on(@comment, :email) %>    
+  <% end %>
+
+  <%= field do %>
+    <%= f.label :website, "Your Website" %><br>
+    <%= f.url_field :website, :class=>"span6" %>
+    <%= errors_on(@comment, :website) %>    
+  <% end %>
+
+  
+  <%= field do %>
+    <%= f.label :body, "Your comment *" %><br>
+    <%= f.text_area :body, :class=>"span6" %><br>
+    <%= errors_on(@comment, :body) %>
+  <% end %>
+  
+  <%= actions do %>
+    <%= f.submit "Add Comment", :disable_with => 'Adding Comment...', :class=>"btn" %>
+  <% end %>
+<% end -%>
+</div></div></div>

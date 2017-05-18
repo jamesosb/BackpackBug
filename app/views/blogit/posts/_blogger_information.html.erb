@@ -1,0 +1,22 @@
+
+	<%= link_to post.blogger.profile do%>
+	<% if post.blogger.profile.profpicture.present? %>
+    	<div class="span1"><%=image_tag  post.blogger.profile.profpicture.url(:thumb),:height=>"50px" ,:class=>"cornerit thumbdppic"%></div>
+    <% end end %>
+<%if user_signed_in?%>
+   <div class="span5 profinfo">
+<%else%>
+<div class="span5 profinfo">
+<%end%>   	
+   By <%= link_to post.blogger.profile.forename, profile_path(post.blogger.profile) %> on 
+    <%= time_tag(post.created_at, blogit_conf.datetime_format) %></br>
+    	 <% if post.locations.present?%>
+    	 <% numberoflocs = post.locations.count%>
+   About <% post.locations.each_with_index do |l, i|%><%= link_to l.name, location_path(l.id)%><%if i == numberoflocs-1%><%elsif i == numberoflocs-2%> and<%else%>,<%end%> <%end%>
+   		 <% end%> 
+   </br>
+   <% if post.tag_list.present?%>
+   			   <% numberoftags = post.tag_list.count%>
+   Tagged with <% post.tag_list.each_with_index do |tag, i| %><%= link_to tag.titleize, tagged_blog_posts_path(tag) %><%if i == numberoftags-1%><%elsif i == numberoftags-2%> and<%else%>,<%end%> <% end %>
+   <% end%> 
+    </div>

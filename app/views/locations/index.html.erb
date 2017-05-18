@@ -1,0 +1,135 @@
+<script>
+$(document).ready(function (){
+	<%@findletter.each do |letter|%>
+
+        $(".letter<%=letter%>").click(function (){
+                $('html, body').animate({
+                    scrollTop: $(".find<%=letter%>").offset().top - 20
+                     }, 1000);
+        });
+     <%end%>
+    });
+
+</script>
+<div class="bottom-padding toplift">
+
+
+
+<% if @locations.present?%>
+
+<!-- ><div id="map" class="indexmapdimentions"></div> -->
+
+<%end %>
+
+<!--<div class="center_position">
+<p><%@findletter.each do |letter|%>
+<a class="letter<%=letter%>" href="#" onclick="return false;" ><%=letter%></a>
+<%end%></p></div>
+-->
+
+<div id="masonryContainer">
+	<div class="row">
+
+<% @locations.each_with_index do |location,i| %>
+
+<% if i % 5 ==0 and location.assets.present? %>
+<div class="locationtile2 cornerit box loctiled tiled find<%=location.name.first%>">
+	<div class="loctile2">
+<%else%>
+
+<div class="locationtile cornerit box locationlinknoim find<%=location.name.first%>">
+<div class='loctile1'>
+
+<%end%>
+	
+	<% if location.assets.present? %>
+	<% location.assets.first(1).each do |a| %>
+	<%= link_to (location) do%>
+	<%= image_tag a.asset.url(:medium), :"data-original"=>a.asset.url(:medium), :class=>"cornerit tiled lazyfade"%>
+	</div>
+	<div class="locationtilebg">
+	<div class="locationtiledetails">
+		<% if i % 5 ==0 and location.assets.present? %><div class="locations-text-large"><%else%><div class="locations-text-small"><%end%>
+		<h2 class="ssregular"><%= link_to location.name.downcase, location %></h1>
+		</div>
+		
+		</div>
+	</div>
+	<%end%><%end%>
+	
+	<%else%>
+	<div id="map<%=i%>" class="cornerit tiled"></div>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+  // Handler for .ready() called.
+
+// create a map in the "map" div, set the view to a given place and zoom
+var map<%=i %> = L.map('map<%=i %>', { zoomControl:false }).setView([<%=location.latitude%>,<%=location.longitude%>], 3);
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'
+}).addTo(map<%=i %>);
+});
+	</script>
+
+	</div>
+	<div class="locationtilebg">
+	<div class="locationmaptiledetails"><div class="locations-text-small"><h2 class="ssregular"><%= link_to location.name, location %></h2></div></div>
+	</div>
+	<%end%>
+
+</div>
+<% end %>
+</div></div>
+
+
+
+<%if user_signed_in?%>
+<div class="row-fluid">
+<div class="span4 center_position">
+<%= link_to 'New Location', new_location_path %>
+</div></div>
+<%end%>
+</div>
+<script type="text/javascript">
+
+
+
+// Masonry
+var $container = $('#masonryContainer');
+$container.imagesLoaded(function(){
+  $container.masonry({
+    itemSelector : '.box',
+    columnWidth: 175,
+    gutterWidth: 10
+  });
+});
+
+$("img.lazyfade").lazyload();
+
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map').setView([51.505, -0.09], 1);
+
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'
+}).addTo(map);
+
+
+ 
+ 
+ <% @locations.each do |o|%>
+L.marker([<%= o.latitude%>, <%= o.longitude%>], {icon: new L.Icon({
+     iconUrl: '/assets/marker-icon.png',
+    iconAnchor: [12, 40]
+   })}).addTo(map)
+   .bindPopup('<%= link_to o.name, location_path(o.id) %>');
+   
+
+       
+  <%end%>
+ // zoom the map to the polyline
+
+
+</script>

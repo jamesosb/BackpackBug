@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  forename: MyString
+  surname: MyString
+  currentlatitude: 9.99
+  currentlongitude: 9.99
+
+two:
+  forename: MyString
+  surname: MyString
+  currentlatitude: 9.99
+  currentlongitude: 9.99

@@ -1,0 +1,13 @@
+<div class="other-content bottom-padding toplift">
+
+<%= form_for :plans,:url => update_all_path, :html => { :method => :put } do |f| %> 
+  <% @plans.each do |plan| %>  
+    <%= fields_for "plan[]", plan do |f| %>  
+      <%= f.text_field :name %>
+      <%= f.check_box :complete %>
+    <% end %>  
+  <% end %>  
+  <p><%= submit_tag "Submit" %></p>  
+<% end %>  
+
+</div>

@@ -1,0 +1,29 @@
+
+  <%= m.fields_for :venues do |v| %>
+<div class="hideall">
+<fieldset>  
+<div class="input-append">	
+<%= v.select(:category, [["Bar"], ["Club"], ["Cafe"], ["Restaurant"], ["Hotel"], ["Hostel"], ["Other"]],{:include_blank => 'Select'},:class => "span2")%> 
+<%= v.text_field :name, :placeholder=> "Name of the venue", :autocomplete => "off", :class=>" span5 venuename appendedInput"  %>
+<span class="add-on"><%= v.link_to_remove do %><i class='icon-trash'></i></span><%end%></div>
+</fieldset>
+<div class="rendervenue"></div>
+<fieldset>
+
+      <%= v.text_area :desc, placeholder: "Write notes about the venue here...",:rows => "4" , :id=>"notes-text", :class=>"span7 somehide" %>
+	  <%= v.hidden_field :foursquare_id, :class => "ConfVenueId" %>
+	  <%= v.hidden_field :latitude, :class => "VenueLati" %>
+   	  <%= v.hidden_field :longitude, :class => "VenueLong"%>
+  </fieldset>
+  
+
+  
+</div>
+<%end%>
+
+
+
+<div class ="addvenue hideall"><p><%= m.link_to_add "Add a venue to this location", :venues, :class=>"hidevens" %></p></div>
+
+
+

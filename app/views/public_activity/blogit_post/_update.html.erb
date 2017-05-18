@@ -1,0 +1,7 @@
+<div class="other-content toplift tiny-post-border">
+<%= render :partial =>'public_activity/shared/prof', :locals => { :a => a } %><%=link_to a.owner.profile.forename, profile_path(a.owner.id) %> updated <% if a.trackable %>
+<%= link_to a.trackable.title, "../blog/posts/#{a.trackable.id}" %>.
+<%else%>a post which has now been deleted.
+<%end%>
+<%= render :partial =>'public_activity/shared/info', :locals => { :a => a } %>
+</div>

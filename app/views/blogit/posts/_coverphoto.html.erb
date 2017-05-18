@@ -1,0 +1,11 @@
+<%= f.label :coverphoto, "Select Coverphoto" %>
+<%= #f.file_field :coverphoto, :class="btn fileupload-exists" :data-dismiss="fileupload"
+%>
+
+
+<div class="fileupload fileupload-new" data-provides="fileupload">
+  <div class="fileupload-new thumbnail" style="width: 100px; height: 50px;"><img src="http://www.placehold.it/100x50/EFEFEF/AAAAAA" /></div>
+  <div class="fileupload-preview fileupload-exists thumbnail" style="width: 100px; height: 50px;"></div>
+  <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" id="post_coverphoto" name="post[coverphoto]" /></span>
+  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+</div>

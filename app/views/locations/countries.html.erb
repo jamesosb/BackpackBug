@@ -1,0 +1,20 @@
+<%if user_signed_in?%>
+
+<div class="other-content bottom-padding toplift">
+<%= form_tag edit_multiple_locations_path, :method => :put do %>
+
+<% for location in @locations %>	
+<%= fields_for "locations_ids[]", location do |f| %>
+<%= hidden_field_tag "location_ids[]", location.id %>
+<%= f.label :country, "#{location.name}"%><p><%= country_select("location","country_name",["United Kingdom"]) %>
+
+<%end%>
+</p>
+
+<%end%>
+<%= submit_tag "Submit", :class=>"btn"%>
+<%end%>	
+</div>
+
+
+<%end%>

@@ -1,0 +1,17 @@
+
+<div id="found">
+  	<p class="help-block">Ahh, you meant <a href="#" onclick="return false;" class="correct_location"><%=@georesult[0].address%></a></p>
+  	<% if @georesult[0].city.present?%>
+  	<%= hidden_field_tag :legname, @georesult[0].city, :class=>"legnam" %>
+  	<%elsif @georesult[0].state.present?%>
+  	<%= hidden_field_tag :legname, @georesult[0].state, :class=>"legnam" %>
+  	<%else%>
+  	<%= hidden_field_tag :legname, @georesult[0].country, :class=>"legnam" %>
+  	<%end%>
+    <%= hidden_field_tag :longitude, @georesult[0].longitude, :class=>"longitude" %>
+    <%= hidden_field_tag :latitude, @georesult[0].latitude, :class=>"latitude" %>
+    
+    
+  </div>
+  
+

@@ -1,0 +1,172 @@
+<%= nested_form_for(@location, :html=> {:multipart => true, :class=> "new_location", :id=> "new_location"}) do |f| %>
+  <% if @location.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+      <ul>
+      <% @location.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <%if user_signed_in? && current_user.id == 1 %>	
+  <div class="field">
+    <%= f.label :latitude %>
+    <%= f.text_field :latitude %>
+    
+    <%= f.label :longitude %>
+    <%= f.text_field :longitude %>
+  </div>
+    <%else%>
+     <div class="field">
+    <%= f.label :latitude %>
+    <%= f.text_field :latitude, :disabled => 'disabled' %>
+    
+    <%= f.label :longitude %>
+    <%= f.text_field :longitude, :disabled => 'disabled' %>
+  </div>
+    
+    <%end%>
+    
+    
+<fieldset>
+
+      <%= f.text_area :notes, placeholder: "Write notes for the scrapbook here...", :id=>"notes-text", :class=>"span7" %>
+
+  </fieldset>
+  
+  <fieldset>
+  	 <%= f.label :searchvenues, "Add Bars, Hostels, Hotels and Cafe's to this location" %>
+  	<%= render :partial => '/blogit/posts/search_venues', :locals => { :m => f } 
+  	%>
+  	
+  </fieldset>
+  
+ 
+ <%= f.label :locationphoto, "Upload pictures of this location" %>
+
+	<% @location.assets.each do |a| %>
+		<%if a.asset.present?%>
+	<%= image_tag a.asset.url(:thumb), :width=>"100", :height =>"100", :class=>"cornerit findimage", :visible =>"false"%>
+	<%end end%>
+<%= render :partial => 'add_asset', :locals => { :f => f }  %>
+  
+  <p><%= f.link_to_add "Add a picture", :assets, :class=>"hidepics" %></p></br>
+  <div class="actions">
+    <%= f.submit "Submit", :class=>"btn", :disable_with => 'Working...' %>
+  </div>
+<% end %>
+
+
+  <script type="text/javascript">
+
+  
+  function imagechecker() {
+  
+  	
+  	// Added rich text controls
+  	  $('#notes-text').wysihtml5();
+  	  
+  	  <% (0..20).each do |i| %>
+var getimagesrc<%=i%> = $('.findimage:eq(<%=i%>)').attr('src');
+$('.findimage:eq(<%=i%>)').hide();
+$('.hidevens').hide();
+var setimagesrc<%=i%>= $('.setimage:eq(<%=i%>)').attr('src', getimagesrc<%=i%>);
+  	  
+  	  <% end%>
+		}
+
+	function venuessearcher(){
+		
+	// Hide all elements required
+		
+		
+  // when the #search field changes
+  <% (0..20).each do |i| %>
+  $('#new_location').on('keyup change','.venuename:eq(<%=i%>)',function() {
+    // make a POST call and replace the content
+    var location = <%=@location.latitude%>+","+<%=@location.longitude%>;
+    var search = $(".venuename:eq(<%=i%>)").val();
+
+   		$.get('/locations/venues?utf8=✓&name='+search+'&ll='+location,this.value, function(searchone) {
+      $(".rendervenue:eq(<%=i%>)").html(searchone);
+
+    });
+							    
+      })
+<% end%>
+	}; 
+	
+	function venuesclicked(){
+	<% (0..20).each do |q| %>	
+  $(document).on('click','.add_nested_fields:eq(<%= q %>)',function() {
+  		$('.add_nested_fields:eq(0)').fadeOut();
+  });
+	<%end%>
+		
+		<% v=0 %>
+		
+		 <% (0..20).each do |q| %>
+		 
+
+		
+	<% if @location.venues.present? %>
+  	venues = <%=@location.venues.count%>
+  	<%else%>
+  	venues = 0
+  	<%end%>
+		 
+  $(document).on('click','.correct_venue:eq(<%= q %>)',function() {
+
+			  var getvenid<%= q %> = $('.VenueId:eq(<%= q %>)').val();
+			  var setvenid<%= q %>= $('.ConfVenueId:eq('+venues+')').val(getvenid<%= q %>);
+				
+			  var getvenname<%= q %> = $('.venuenm:eq(<%= q %>)').val();
+			  var setvenname<%= q %>= $('.venuename:eq('+venues+')').val(getvenname<%= q %>);
+
+			  var getlong<%= q %> = $('.VenueLon:eq(<%= q %>)').val();
+
+			  var setlong<%= q %>= $('.VenueLong:eq('+venues+')').val(getlong<%= q %>);
+			  
+			  var getlat<%= q %> = $('.VenueLat:eq(<%= q %>)').val();
+
+			  var setlat<%= q %>= $('.VenueLati:eq('+venues+')').val(getlat<%= q %>);
+			  
+			  $('.venuename:eq('+venues+')').prop('readonly',true);
+ 			  $('.rendervenue:eq('+venues+')').fadeOut();	
+ 			  $('.add_nested_fields').fadeIn();
+			})
+			<% if q == 2 or q == 5 or q == 8 or q == 11 or q == 14 or q == 17 or q ==20 %>
+			
+			<%	v+=1  %>
+			
+		<% end end %>
+		
+ 	
+			 
+};
+
+  $(document).on('nested:fieldAdded', function(event){
+  // this field was just inserted into your form
+	venues++
+
+}) 
+  
+  $(document).on('nested:fieldRemoved', function(event){
+  // this field was just inserted into your form
+$('.add_nested_fields').fadeIn();
+})
+  
+  $(imagechecker);
+  $(venuessearcher);
+  $(venuesclicked);
+
+  
+  
+  </script>

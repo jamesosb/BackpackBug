@@ -1,0 +1,14 @@
+<% if a.trackable %>
+<div class="other-content toplift">
+<%= render :partial =>'public_activity/shared/prof', :locals => { :a => a } %><%=link_to a.owner.profile.forename, profile_path(a.owner.id) %> added 
+
+<% if !a.trackable.category.blank? and a.trackable.category != "Other" %>a 
+<%= a.trackable.category%>,<%end%>
+<% @locations.each do |locs|%>
+<%if locs.id == a.trackable.location_id%>
+'<%=link_to a.trackable.name, location_venue_path(locs.id, a.trackable.id)%>' to <%=link_to locs.name, location_path(locs.id)%>
+<%end end%>
+
+<%= render :partial =>'public_activity/shared/info', :locals => { :a => a } %>
+</div>
+<%end%>

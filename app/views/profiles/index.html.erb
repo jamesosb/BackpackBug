@@ -1,0 +1,69 @@
+<div class="other-content bottom-padding toplift">
+
+<h1>Who We Are</h1>
+
+<div id="map" class="indexmapdimentions"></div>
+
+<div class="post-content">
+
+<p>Hello! Welcome to backpack bug. We're two friends that love to travel and have finally decided to share some of our travel experience and knowledge with you, the beautiful internet people.
+	</p>
+<p>
+	Together we have visited around 60 countries and have both spent time living in Asia and Europe. We love to drink, meet fellow backpackers and discover things which make trips a little more special. We hope you find this blog useful. If you have any tips of your own please let us know and we will do our best add them in.  
+</p>	
+</div>
+
+<div class="post-content toplift">
+<% @profiles.each do |profile| %>
+<div class="row">
+	<div class="span12">
+	<%= link_to profile do%>
+	<% if profile.profpicture.present? %>
+    	<div class="span2"><%=image_tag  profile.profpicture.url(:thumb), :class=>"thumbdppic cornerit bottom-marginit"%></div>
+    <% end %>
+    <div class="profinfo span9">
+    
+    <%= profile.forename %>
+    <%= profile.surname %>
+  </div>  
+    <%end%>
+<%if user_signed_in?%>
+   | <%= link_to 'Edit', edit_profile_path(profile) %> | <%= link_to("Delete", profile, method: :delete, confirm: "Are you sure you want to remove this profile?") %>
+<%end%>
+	</div></div>
+<% end %>
+   <%if user_signed_in?%> <%= link_to 'New Profile', new_profile_path %><%end%>
+
+
+
+
+</div></div>
+
+<script type="text/javascript">
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map').setView([51.505, -0.09], 1);
+
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'
+}).addTo(map);
+
+
+ 
+ 
+ <% @profiles.each do |o|%>
+ 		<% if o.currentlatitude.present? and o.currentlongitude.present? %>
+L.marker([<%= o.currentlatitude%>, <%= o.currentlongitude%>], {icon: new L.Icon({
+     iconUrl: '/assets/marker-icon.png',
+    iconAnchor: [12, 40]
+   })}).addTo(map)
+   .bindPopup('<%= link_to o.forename, profile_path(o.id) %>');
+   		 <%end%>
+
+       
+  <%end%>
+ // zoom the map to the polyline
+
+
+
+</script>

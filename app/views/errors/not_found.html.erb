@@ -1,0 +1,30 @@
+<div class="other-content bottom-padding toplift">
+<h1 class="center_position">404 Page Not Found</h1>
+<div class="text-body">
+
+  <div class="span12 thumbnail post-coverpic">
+
+<%=image_tag '404.png', :class=>"span12"%>
+</div>
+
+</div>
+
+<p class="center_position">I'm not sure what you're looking for but it aint here!</p>
+
+<div class="row post-body text">
+	
+		<% if @posts.present? %>
+	<div class="span12">
+		<h4>Why not check out some of our latest posts instead?</h4>
+		<ul class="nav nav-tabs nav-stacked">
+
+		<% @posts.each do |p| %>
+		 <li><%= link_to "#{p.title.titleize}", "../blog/posts/#{p.id}"  %></li>
+
+		<%end%>
+		</ul>
+	</div>
+	<%end%>
+</div>	
+
+</div>

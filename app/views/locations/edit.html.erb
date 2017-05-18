@@ -1,0 +1,17 @@
+<div class="other-content">
+<h2>Editing <%=@location.name%></h2>
+
+<%= render 'form' %>
+<%= link_to 'Show', @location %> |
+<%= link_to 'Back', locations_path %>
+
+</div>
+<script type="text/javascript">
+	<% number = @location.venues.count %>
+	
+	<% @location.venues.each_with_index do |venue, t| %>
+	<% if t == number then break end%>
+	$('.venuename:eq(<%= t %>)').attr('readonly', 'readonly');
+	
+	<% end%>
+</script>

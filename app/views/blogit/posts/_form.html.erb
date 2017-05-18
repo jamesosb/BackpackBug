@@ -1,0 +1,213 @@
+<%= nested_form_for(@post, :html=> {:multipart => true, :class=> "new_blog_post", :id=> "new_blog_post"}) do |f| %>
+
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% @post.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <%= field do %>
+      <%= f.text_field :title, placeholder: "Give your post a title", :class=>"span7 title", :tabindex => '1' %>
+    <% end %>
+</fieldset>
+<fieldset>
+
+
+	<%= field do %>
+
+<%= render :partial => 'coverphoto', :locals => { :f => f }  %>
+	<% end %>
+</fieldset>
+<fieldset>
+    <%= field do %>
+      <%= f.text_area :body, placeholder: "Write something here...", :id=>"blog-text", :class=>"span7"%>
+    <% end %>
+  </fieldset>
+
+  <fieldset>
+
+    <%= field id: "new_blog_post_tag_field" do %>
+      <%= f.label :tag_list, "Tags" %>
+      <%= f.text_field :tag_list, placeholder: "tag one, tag two, etc..." %>
+    <% end %>
+    
+
+  </fieldset>
+  
+
+  	<%= f.label :search_locations, "Add locations to your post" %>
+
+
+  <%= render :partial => 'search_locations', :locals => { :f => f } %>
+  
+<br/>
+<p><%= f.link_to_add "Add a location", :locations, :class=>"hideall" %></p>
+  	    <label class="checkbox">
+  	<%= f.check_box :locations_linked %> Locations are linked
+    </label>
+  <br/>  
+  <%= actions do %>
+    <%= f.submit "Submit", :class=>"btn", :disable_with => 'Working on it...' %> or 
+    <%= link_to("cancel", @post.new_record? ? root_path : post_path(@post)) %>
+    
+  <% end %>
+
+
+
+<script type="text/javascript">
+
+	//Grab previously saved locations and populate the hiddenfields with them.
+
+
+  <% if @post.locations.present? %>
+  <% @post.locations.each_with_index do |l, p|%>
+  var setlocalevalue<%=p%>= $('.localename:eq(<%=p%>)').attr('value', "<%=l.name%>");
+  <%end%> <%end%>  	  
+  	  
+  	
+
+		
+	function locationchecker() {
+		// Hide all elements required
+		$('.hideall').hide(300);
+		 // Added rich text controls
+		$('#blog-text').wysihtml5();
+	
+	num = 0 	
+		
+	<% if @post.locations.present? %>
+  	numberlocations = <%=@post.locations.count%>
+  	<%else%>
+  	numberlocations = 0
+  	<%end%>
+	locationsdeleted = 0
+	correctlocations = 0
+	
+	// Script to limit number of locations to 20
+ 	
+	$(function() {
+  var fieldsCount,
+      maxFieldsCount = 19,
+      $addLink = $('a.add_nested_fields');
+  
+  function toggleAddLink() {
+    $addLink.toggle(fieldsCount <= maxFieldsCount)
+  }
+
+  $(document).on('nested:fieldAdded', function() {
+  	$('.add_nested_fields').fadeOut();
+    fieldsCount += 1;
+    numberlocations++
+    correctlocations++
+	$('.help-block').remove();
+    toggleAddLink();
+  });
+
+  $(document).on('nested:fieldRemoved', function() {
+    fieldsCount -= 1;
+    numberlocations--
+    locationsdeleted++
+
+  });  
+
+  // count existing nested fields after page was loaded
+  fieldsCount = $('form .fields').length;
+  toggleAddLink();
+})
+
+		
+		// Rails to multiply the script 30 times     
+		<% (0..20).each do |i| %>
+		
+		// If the user has clicked on a valid location then disable the textbox and allow editing of venues
+		  $('#new_blog_post').on('click','.correct_location:eq(<%=i%>)',function() {
+		  	  newtotal = numberlocations+locationsdeleted
+		  	  num = 0
+			  $('.localename:eq('+newtotal+')').prop('readonly',true);
+			  var getlocname<%=i%> = $('.legnam:eq('+correctlocations+')').val();
+			  var setlocname<%=i%>= $('.localename:eq('+newtotal+')').val(getlocname<%=i%>);
+
+
+
+			  $('.addvenue:eq(<%=i%>)').fadeIn();
+			  $('.add_nested_fields').fadeIn();
+			})
+  	  	
+ 	    // when the search field changes
+ 	    $('#new_blog_post').on('keyup change','.localename:eq(<%=i%>)',function() {
+ 	    	
+ 	    	<% #(0..i).each do |p| %>
+ 	    // get the value of searchfield 
+		var location<%=i%> = $(".localename:eq(<%=i%>)").val();	
+		
+
+ if (num != 1) {
+		
+	//Take the value of the textbox and pull it from geocoder
+    	$.get('/locations/existinglocationsearch?location='+location<%=i%>,this.value, function(searchone<%=i%>) {
+      	$(".latlong:eq(<%=i%>)").html(searchone<%=i%>);
+      	
+      	
+    //Return this data, display it both in the form and in hidden fields ready to by posted   
+    var getlong<%=i%> = $('.longitude:eq('+correctlocations+')').val();
+  	var getlat<%=i%> = $('.latitude:eq('+correctlocations+')').val();
+  	var getlegnam<%=i%> = $('.legnam:eq('+correctlocations+')').val();
+
+
+  	
+  	//Get the value of the hidden fields in legs.html.erb and set it as a value in the main form
+  	var setlong<%=i%>= $('.long:eq(<%=i%>)').val(getlong<%=i%>);
+  	var setlat<%=i%>= $('.lat:eq(<%=i%>)').val(getlat<%=i%>);
+  	var setlegnam<%=i%>= $('.LegNm:eq(<%=i%>)').val(getlegnam<%=i%>);  
+      	
+      	  })
+}else if (num == 1){
+	
+	//Take the value of the textbox and pull it from geocoder
+    	$.get('/locations/locationsearch?location='+location<%=i%>,this.value, function(searchone<%=i%>) {
+      	$(".latlong:eq(<%=i%>)").html(searchone<%=i%>);
+      	
+      	
+    //Return this data, display it both in the form and in hidden fields ready to by posted   
+    var getlong<%=i%> = $('.longitude:eq('+correctlocations+')').val();
+  	var getlat<%=i%> = $('.latitude:eq('+correctlocations+')').val();
+  	var getlegnam<%=i%> = $('.legnam:eq('+correctlocations+')').val();
+
+
+  	
+  	//Get the value of the hidden fields in legs.html.erb and set it as a value in the main form
+  	var setlong<%=i%>= $('.long:eq(<%=i%>)').val(getlong<%=i%>);
+  	var setlat<%=i%>= $('.lat:eq(<%=i%>)').val(getlat<%=i%>);
+  	var setlegnam<%=i%>= $('.LegNm:eq(<%=i%>)').val(getlegnam<%=i%>);  
+	
+	})
+	
+};
+	
+     	 	  
+      	 
+      	  
+		});
+		
+		
+		
+		
+		<%end%>
+	}
+	
+
+// Load locationchecker ajax on document load
+
+$(document).ready(locationchecker);
+
+
+
+</script>
+<% end %>

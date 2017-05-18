@@ -1,0 +1,25 @@
+
+
+<div class="bottom-padding activity-feed">
+	
+	
+<% @activities.each do |activity| %>
+<div class="page">
+  <%= render_activity(activity) %>
+</div>
+<% end %>
+
+<%= paginate @activities %>
+</div>
+
+
+	
+	
+<script type="text/javascript">
+
+//Carousel
+
+$('.carousel').carousel()
+
+
+</script>

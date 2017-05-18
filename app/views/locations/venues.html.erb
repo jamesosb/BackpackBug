@@ -1,0 +1,17 @@
+<% if @venues %>
+    <% @venues["places"].each do |venue| %>
+    <div class="row"><div class="span10">
+    	<div class="span2"><%=image_tag ("#{venue.icon}") %></div>
+    	<div class="span7"><a href="#" onclick="return false;" class="correct_venue"><%=h venue.name %></a></br><%=h venue.location.address %></div> 
+    	<%= hidden_field_tag :name,"", :class => "venuenm", :value => "#{venue.name}" %>
+    	<%= hidden_field_tag :latitude,"", :class => "VenueLat", :value => "#{venue.location.lat}" %>
+    	<%= hidden_field_tag :longitude,"", :class => "VenueLon", :value => "#{venue.location.lng }" %>
+    	<%= hidden_field :foursquare_id,"", :class => "VenueId", :value => "#{venue.id}" %>
+       </div></div>
+
+<% end %>
+</br>
+<%else%>
+No venues! Search Again!
+<% end %>
+

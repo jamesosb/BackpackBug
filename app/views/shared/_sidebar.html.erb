@@ -1,0 +1,21 @@
+<div class="float">
+	<div class="headline">
+<%= link_to "/" do %>
+<%= image_tag "logo.png", :alt => "Backpack Bug"%>
+<%end%>
+    </div>
+<div class="side-decor">
+<ul class="nav nav-pills nav-stacked side-nav toplift">
+
+<%= render "shared/nav_links" %>
+
+  
+<%if user_signed_in?%>
+
+  <li><%= link_to 'New Blog Post', '/blog/posts/new' %></li>
+  <li><%= link_to 'Issues, Bugs and Features', plans_path %></li>
+  <!-- ><li><%= link_to('Admin Logout', destroy_user_session_path, :method => :delete) %> </li> -->
+  
+  <% end %>
+</ul>
+  </div></div>

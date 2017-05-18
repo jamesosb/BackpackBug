@@ -1,0 +1,4 @@
+<div class="other-content toplift">
+<%= render :partial =>'public_activity/shared/prof', :locals => { :a => a } %> <%=link_to a.owner.profile.forename, profile_path(a.owner.id) %> updated an image.
+<%= render :partial =>'public_activity/shared/info', :locals => { :a => a } %>
+</div>

@@ -1,0 +1,71 @@
+
+
+<%if (params[:action] == 'index')%>
+<div class="moveleft">
+<div class="post-tile-container">
+
+
+<%if post.locations.present?%>
+	<%  post.locations.each_with_index do |l, i|%>
+	<% if l.assets.present? %>
+	
+	<div class="post-tile-small box cornerit ">
+		
+	<%= link_to location_path("#{l.id}") do %><% l.assets.first(1).each do |a| %>
+		<%= image_tag a.asset.url(:medium), :class=>"cornerit main post-tile-img"%>
+	<%end%>
+
+	<%= link_to location_path("#{l.id}") do %><div class="post-tilescenter"><h2 class="ssregular">
+		
+		<% if !l.name.downcase.strip.index(/\s/) && l.name.length > 6%>
+		
+		<%= l.name.downcase.strip.truncate(5, :omission => "")		%>-
+		<%= l.name.downcase.strip[5..-1].truncate(5, :omission => "") %>
+		
+		<%else%>
+		
+		<%= l.name.downcase.strip.truncate(11, :omission => "")		%>
+		
+			
+		<%end%>
+		</h2><%end%>
+	</div></div>
+	
+<%end end end%>	
+
+</div></div>
+<%end%>
+<% else%>
+<div class="moveleft">
+<div class="post-tile-container float">
+
+<%if @post.locations.present?%>
+	<%  @post.locations.each_with_index do |l, i|%>
+	<% if l.assets.present? %>
+	
+	<div class="post-tile-small box cornerit ">
+		
+	<%= link_to location_path("#{l.id}") do %><% l.assets.first(1).each do |a| %>
+		<%= image_tag a.asset.url(:medium), :class=>"cornerit main post-tile-img"%>
+	<%end%>
+
+	<%= link_to location_path("#{l.id}") do %><div class="post-tilescenter"><h2 class="ssregular">
+		
+		<% if !l.name.downcase.strip.index(/\s/) && l.name.length > 6%>
+		
+		<%= l.name.downcase.strip.truncate(5, :omission => "")		%>-
+		<%= l.name.downcase.strip[5..-1].truncate(5, :omission => "") %>
+		
+		<%else%>
+		
+		<%= l.name.downcase.strip.truncate(11, :omission => "")		%>
+		
+			
+		<%end%>
+		</h2><%end%>
+	</div></div>
+	<%end end end end%>	
+</div></div>	
+<%end %>
+
+

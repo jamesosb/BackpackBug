@@ -1,0 +1,26 @@
+<div class="favourites toplift entrytext">
+
+<div class="row">
+<h1 class="faves-head">Some Of Our Faves</h1>
+</div>
+
+<div class="row">
+	<% @faves1.each do |p|%>
+<div class="span6 fave-block">
+	
+	 <%= link_to (post_path(p.id)) do %>
+	 <% if p.coverphoto.present? %><%= image_tag p.coverphoto.url(:coverbar), :width=>"50", :height =>"50"%><% end%>
+	 <%=p.title.titleize %><%end%>
+</div>
+<%end%>
+</div>
+<div class="row">
+	<% @faves2.each do |p|%>
+<div class="span6 fave-block">
+	
+	 <%= link_to (post_path(p.id)) do %>
+	 <% if p.coverphoto.present? %><%= image_tag p.coverphoto.url(:coverbar), :width=>"50", :height =>"50"%><% end%>
+	 <%=p.title.titleize %><%end%>
+</div>
+<%end%>
+</div></div>

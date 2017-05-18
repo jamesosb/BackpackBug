@@ -1,0 +1,66 @@
+
+<%if (params[:action] == 'show')%>
+
+<% if post.coverphoto.present? %>
+
+<%= image_tag post.coverphoto.url(:blurred), :class =>"back-image", :alt =>""%>
+
+<%end%>
+
+<% else if (params[:action] == 'index')%>
+
+<% if post.coverphoto.present? %>
+
+
+<%= image_tag post.coverphoto.url(:blurred), :class =>"post-bg-image hidden", :alt =>""%>
+
+<%end end%>
+<% end%>
+
+
+<%= render "blogit/posts/post_locations", post: post%>
+
+
+<div class="post-content toplift">
+<%= content_tag(:article, id: "blog_post_#{post.id}", class: "blog_post entrytext") do %>
+
+
+  <%= render "blogit/posts/post_coverphoto", post: post %>
+
+  <%= render "blogit/posts/post_head", post: post %>
+<div class="post-body">
+
+  
+
+  
+  <%# Render the body of this blog post (as Markdown) %>
+  <%= render "blogit/posts/post_body", post: post %>
+  
+
+  
+  <%# Render this block showing mapping %>
+  <%= render "blogit/posts/post_map", post: post %>
+  
+	
+  	<div class="row">
+  		<div class="span7">
+  <%# Render info about the person who wrote this post 
+  %>
+  <%= render "blogit/posts/blogger_information", post: post %>
+
+  <%# Render the no. of comments %>
+  <%=# render "blogit/posts/comments_count", 
+    #post: post if defined?(show_comments_count) and show_comments_count 
+    %>
+  
+  
+  <%# Render admin links to edit/delete this post %>
+  <%= render "blogit/posts/post_links", post: post %>
+  </div></div>
+<div class="post-foot"></div>
+
+
+<% end %>
+</div>  
+
+

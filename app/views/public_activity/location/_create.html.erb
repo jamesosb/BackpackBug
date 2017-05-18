@@ -1,0 +1,14 @@
+
+<% if a.trackable %>
+<div class="other-content toplift tiny-post-border">
+<%= render :partial =>'public_activity/shared/prof', :locals => { :a => a } %><%=link_to a.owner.profile.forename, profile_path(a.owner.id) %> created a new location, 
+
+<% @locations.each do |locs|%>
+<%if locs.id == a.trackable_id%>
+<%=link_to locs.name, location_path(locs.id)%>
+<%end end%>
+<%= render :partial =>'public_activity/shared/info', :locals => { :a => a } %>
+</div>
+<%else%>
+<%end%>
+

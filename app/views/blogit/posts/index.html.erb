@@ -1,0 +1,118 @@
+<div class="bottom-padding">
+
+<% if @posts.present? %>
+
+<% if @firstpost.present? && @firstpost.coverphoto.present? %>
+
+<%= image_tag @firstpost.coverphoto.url(:blurred), :class =>"back-image firstbg", :alt =>""%>
+
+<% end %> 
+ 
+  <%= #render partial: "blogit/posts/favourites"
+ %>
+
+  <%= render partial: "blogit/posts/post", 
+    collection: @posts, 
+    spacer_template: "blog_post_spacer", 
+    locals: {show_comments_count: true}  %>
+  
+  
+    
+<% else %>
+  
+  <%= render partial: "blogit/posts/empty" %>
+  
+<% end %>
+
+<%= render "pagination" %>
+</div>
+
+<script>
+
+$(document).ready(function() {
+$('.post-tile-container:eq(0)').addClass("post-tile-fixer")
+
+});
+
+
+<% @posts.each_with_index do |p,i| %>
+
+
+
+
+$('.post-content:eq(<%=i+1%>)').waypoint(function(direction) {
+
+	if (direction == 'down'){
+
+$('.post-tile-container:eq(<%=i%>)').fadeOut()
+setTimeout(function() {
+$('.post-tile-container:eq(<%=i%>)').removeClass("post-tile-fixer")
+$('.post-tile-container:eq(<%=i%>)').fadeIn()
+}, 800);
+
+$('.post-tile-container:eq(<%=i+1%>)').addClass("post-tile-fixer")
+}
+
+ if (direction == 'up'){	
+
+$('.post-tile-container:eq(<%=i+1%>)').removeClass("post-tile-fixer")
+
+$('.post-tile-container:eq(<%if i != 0%> <%=i%> <%else%> 0<%end%>)').addClass("post-tile-fixer").hide()
+
+setTimeout(function() {
+$('.post-tile-container:eq(<%if i != 0%> <%=i%> <%else%> 0<%end%>)').fadeIn()
+}, 400);
+ 
+ 	
+ }
+
+    },{offset: 15
+	
+	});
+
+
+
+$('.post-content:eq(<%=i%>)').waypoint(function(direction) {
+	
+	if (direction == 'down'){
+		
+		
+// Check if the image already has the class, to stop it flashing		
+		if (!$('.post-bg-image:eq(<%=i%>)').hasClass("back-image")){
+// If it doesn't then add the class and fade it in
+$('.post-bg-image:eq(<%=i%>)').addClass("back-image").hide()
+$('.post-bg-image:eq(<%=i%>)').fadeIn("slow")
+
+// Then after a while fade out the background class to improve responsiveness
+setTimeout(function() {
+$('.post-bg-image:eq(<%=i-1%>)').removeClass("back-image").hide()
+}, 800);
+	
+	}// Close has Class if 
+ }// Close direction if
+ 
+ 
+	 if (direction == 'up'){	
+	 			
+// Check if the image already has the class, to stop it flashing		
+		if (!$('.post-bg-image:eq(<%if i != 0%> <%=i-1%> <%else%> 0<%end%>)').hasClass("back-image")){
+
+$('.post-bg-image:eq(<%if i != 0%> <%=i-1%> <%else%> 0<%end%>)').addClass("back-image").hide()
+$('.post-bg-image:eq(<%if i != 0%> <%=i-1%> <%else%> 0<%end%>)').fadeIn("slow")
+// If it doesn't then add the class and fade it in
+$('.post-bg-image:eq(<%=i%>)').fadeOut("slow")
+// Then after a while fade out the background class to improve responsiveness
+setTimeout(function() {
+$('.post-bg-image:eq(<%=i%>)').removeClass("back-image").hide()
+}, 800);
+//$('.post-bg-image:eq(0)').addClass("back-image").hide()
+
+	
+
+ }// Close has Class if	
+}
+	
+});
+<%end%>
+	
+</script>

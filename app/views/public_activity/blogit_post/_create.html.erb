@@ -1,0 +1,22 @@
+
+<div class="post-content toplift">
+<% if a.trackable.present? %>
+		<%if a.trackable.coverphoto.present?%>
+<div class="post-coverpic cornertops tiny-post-border">
+	<%= link_to "../blog/posts/#{a.trackable.id}" do%>
+<%= image_tag a.trackable.coverphoto.url(:coverbar), :width=>"600px", :class=>"cornertops"%>
+<%end%>
+</div>
+
+<%end%>
+
+<div class="activity-head">
+
+<%= render :partial =>'public_activity/shared/prof', :locals => { :a => a } %>  <%=link_to a.owner.profile.forename, profile_path(a.owner.id) %>  wrote a new post entitled <%= link_to(a.trackable.title.titleize, "../blog/posts/#{a.trackable.id}") %>
+
+<%= render :partial =>'public_activity/shared/info', :locals => { :a => a } %>
+</div>
+<%else%>
+<%end%>
+
+</div>

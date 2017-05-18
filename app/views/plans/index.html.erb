@@ -1,0 +1,85 @@
+<div class="other-content bottom-padding toplift">
+
+<h1>Issues, bugs and planned features</h1>
+
+
+<%= form_for :plans,:url => update_all_path, :remote => true ,:html => { :method => :put } do |f| %> 
+
+<div id="outstandingarea">
+<%= render :partial => 'outstanding', :locals => { :f => f }  %>	
+</div>
+
+<div id="completedarea">
+<%= render :partial => 'completed', :locals => { :f => f }  %>	
+</div>
+
+<% end %>
+
+<%= link_to 'New Issue, Bug or Feature', new_plan_path %>
+
+</div>
+
+
+
+
+
+
+
+
+  <script>
+
+
+  
+  $('.submittable').live('change', function() {
+  		$(this).parents('form:first').submit();
+  		
+  	  //	$('#outstandingarea').html('<%= escape_javascript render 'outstanding' %>');
+  	  if ($($(this).parents('li')).hasClass('outstanding')){
+  	  	$(this).parents('li').addClass('disabled')
+  	  	$(this).parents('li').appendTo('.sortable2')
+  	  	
+  	  } else {
+  	  	$(this).parents('li').appendTo('.sortable1')
+  	  	$(this).parents('li').addClass('disabled')
+  	  }
+});
+  
+//  outstanding = <%=@outstandingplans.count%>
+  
+//  complete = <%=@completedplans.count%>
+  $(function() {
+
+	$('.sortable1, .sortable2').sortable().bind('sortupdate', function() {
+
+
+<%= @allplans.count.times do |i|%>
+	
+		listItems<%=i%> = $('li:gt(<%=i%>)')
+  		findposition<%=i%> = $('li').index(listItems<%=i%>)
+	  	$('.position:eq(<%=i%>)').val(findposition<%=i%>)
+
+	  	
+	  //	if(findposition<%=i%> <= outstanding) {
+	  //		alert(outstanding)
+	  //		
+	  //		  $('input:checkbox').eq(<%=i%>).removeAttr('checked');
+	  //	}
+	  	//if(findposition<%=i%> >= complete) {
+	  	//	 alert(complete)
+	  	//	 
+	  	//	  $('input:checkbox').eq(<%=i%>).attr('checked','checked');
+	  	//}
+	  
+<% end %>
+  		
+		$(this).parents('form:first').submit();
+    //Triggered when the user stopped sorting and the DOM position has changed.
+	});
+	
+	$('.sortable1, .sortable2').sortable({
+	items: ':not(.disabled)'
+    //connectWith: '.connected'
+	});
+	
+  });
+  </script>

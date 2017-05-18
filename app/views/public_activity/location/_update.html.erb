@@ -1,0 +1,24 @@
+
+<div class="post-content toplift">
+<% if a.trackable.present? %>
+<% @locations.each do |location|%>
+<%if location.id == a.trackable_id%>	
+	<% if location.assets.present? %>
+<div class="post-coverpic cornertops tiny-post-border">
+	<% location.assets.first(1).each do |ass| %>
+	<%= link_to location_path("#{a.trackable.id}") do%>
+	<%= image_tag ass.asset.url(:large), :width=>"600px", :class=>"cornertops"%>
+	<%end%><%end%>
+</div>
+<%end%><%end%><%end%>
+
+
+<%end%>
+<div class="activity-head">
+
+<%= render :partial =>'public_activity/shared/prof', :locals => { :a => a } %><%=link_to a.owner.profile.forename, profile_path(a.owner.id) %> updated <%if a.trackable.present? %> location, <%= link_to a.trackable.name.titleize, location_path("#{a.trackable.id}") %><%else%> a location.<%end%>
+
+<%= render :partial =>'public_activity/shared/info', :locals => { :a => a } %>
+</div></div>
+
+

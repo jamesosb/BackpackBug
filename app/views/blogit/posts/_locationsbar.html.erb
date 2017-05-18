@@ -1,0 +1,37 @@
+	
+<% if post.locations.present? %>
+
+
+
+<div class="locationsbar">
+
+
+	
+  <% post.locations.each do |l|%>
+  <div class="circle"><div class="circle-inner"></div></div><div class="arrow"></div>
+  <div class="locationsbarwell">
+  <address class="locationsaddress">
+  	
+  <h3><%= link_to l.name, location_path(l.id)%></h3> 
+  </address>
+
+ <div id="mapbar<%= l.id %>" class="locationsbarmap"></div>
+
+</div>
+  <%end%>
+</div>
+<%end%>
+<script type="text/javascript">
+
+<% post.locations.each do |l|%>
+// create a map in the "map" div, set the view to a given place and zoom
+var mapbar<%= l.id %> = L.map('mapbar<%= l.id %>',{ zoomControl:false }).setView([<%= l.latitude %>, <%= l.longitude %>], 8);
+
+// add a CloudMade tile layer with style #997
+L.tileLayer('http://{s}.tile.cloudmade.com/54c2ef6779164906ab1ca45bfc083331/997/256/{z}/{x}/{y}.png').addTo(mapbar<%= l.id %>);
+
+
+
+<% end %>
+
+</script>

@@ -1,0 +1,19 @@
+<div class="other-content">
+<h4>Edit Blog Post #<%= @post.id %></h4>
+
+<%= render 'form' %>
+
+</div>
+
+<script type="text/javascript">
+	<% number = @post.locations.count %>
+	
+	<% @post.locations.each_with_index do |venue, t| %>
+	<% if t == number then break end%>
+	$('.localename:eq(<%= t %>)').attr('readonly', 'readonly');
+	$('.help-block:eq(<%= t %>)').hide();
+	
+	<% end%>
+</script>
+
+

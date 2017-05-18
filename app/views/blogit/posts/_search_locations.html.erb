@@ -1,0 +1,28 @@
+  <fieldset>
+   <%= f.fields_for :locations do |m| %>
+   
+
+   
+		<div class="row locsearch">      
+		   <div class="input-append span3">
+		   	
+			<%= m.text_field :name, :class=>"localename appendedInput", :placeholder=> "Name of the location", :autocomplete => "off" %>
+			
+			
+			<span class="add-on"><%= m.link_to_remove do %><i class='icon-trash'></i></span><%end%>  </div>
+
+	<div class="latlong offset1 span3"> <p class="help-block">Enter the name of the town or city visited in this blog entry.</p>
+			</div>
+
+		    <%= m.hidden_field :name, :class => "LegNm" %>
+		    <%= m.hidden_field :longitude, :class => "long" %>
+		    <%= m.hidden_field :latitude, :class => "lat" %>
+			
+		</div>
+		
+		<%= #render :partial => 'search_venues', :locals => { :m => m } 
+			%>
+		
+		  
+    <% end %>
+</fieldset>
